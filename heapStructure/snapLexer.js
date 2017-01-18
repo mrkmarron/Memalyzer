@@ -59,7 +59,7 @@ class Lexer {
         this.str = str;
         this.cpos = 0;
 
-        this.output = [];
+        this.cachedNext = null;
     }
 
     lexerAssert(cond, msg) {
@@ -76,7 +76,7 @@ class Lexer {
         }
     }
 
-    //check for a given prefix regex and do extraction
+    //check for a given prefix regex
     checkPrefix(re) {
         re.lastIndex = this.cpos;
         return re.test(this.str);
@@ -101,7 +101,7 @@ class Lexer {
         }
 
         this.cpos += m[0].length;
-        this.output.push(t);
+        return t;
     }
 
     //lex out a json key -- should only be [a-zA-z0-9] strings ending with :
@@ -112,7 +112,7 @@ class Lexer {
         this.lexerAssert(m && m.length >= 2, 'JsonKey match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
-        this.output.push(createLexerToken(lexerTokens.jsonKey, m[1]));
+        return createLexerToken(lexerTokens.jsonKey, m[1]);
     }
 
     //lex out numeric values
@@ -138,7 +138,7 @@ class Lexer {
         this.lexerAssert(m, 'Number match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
-        this.output.push(createLexerToken(lt, val));
+        return createLexerToken(lt, val);
     }
 
     //lex out a string value
@@ -156,7 +156,7 @@ class Lexer {
         let strval = this.str.substring(sbegin, send);
 
         this.cpos += strlen + 1; //read off strlen + tailing quote
-        this.output.push(createLexerToken(lexerTokens.string, val));
+        return createLexerToken(lexerTokens.string, val);
     }
 
     //lex out address/logtag/enumTag
@@ -171,22 +171,22 @@ class Lexer {
         }
 
         this.cpos += m[0].length;
-        this.output.push(createLexerToken(lt, nval));
+        return createLexerToken(lt, nval);
     }
 
     addressRegex = /\*[0-9]+/y;
     lexNextAddress() {
-        lexNextSymValueHelper(addressRegex, lexerTokens.address);
+        return lexNextSymValueHelper(addressRegex, lexerTokens.address);
     }
 
     logtagRegex = /![0-9]+/y;
     lexNextLogTag() {
-        lexNextSymValueHelper(logtagRegex, lexerTokens.logTag);
+        return lexNextSymValueHelper(logtagRegex, lexerTokens.logTag);
     }
 
     enumtagRegex = /\$[0-9]+/y;
     lexNextEnumTag() {
-        lexNextSymValueHelper(enumtagRegex, lexerTokens.enumTag);
+        return lexNextSymValueHelper(enumtagRegex, lexerTokens.enumTag);
     }
 
     //lex out a well-known token value
@@ -197,6 +197,62 @@ class Lexer {
         this.lexerAssert(m && m.length >= 3, 'Wellknown match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
-        this.output.push(createLexerToken(lexerTokens.wkToken, m[2]));
+        return createLexerToken(lexerTokens.wkToken, m[2]);
+    }
+
+    //Read the next token from the stream
+    popNextToken() {
+        let res = null;
+
+        if (this.cachedNext) {
+            res = this.cachedNext;
+            this.cachedNext = null;
+        }
+        else {
+            if (this.checkPrefix(jsonKeyRegex)) {
+                res = this.lexNextJsonKey();
+            }
+            else if (this.checkPrefix(simpleTokenRegex)) {
+                res = this.lexNextSimpleToken();
+            }
+            else if (this.checkPrefix(floatRegex) || this.checkPrefix(integerRegex)) {
+                res = this.lexNextNumber();
+            }
+            else if (this.checkPrefix(stringHeadRegex)) {
+                res = this.lexNextString();
+            }
+            else if (this.checkPrefix(addressRegex)) {
+                res = this.lexNextAddress();
+            }
+            else if (this.checkPrefix(logtagRegex)) {
+                res = this.lexNextLogTag();
+            }
+            else if (this.checkPrefix(enumtagRegex)) {
+                res = this.lexNextEnumTag();
+            }
+            else if (this.checkPrefix(wellknownRegex)) {
+                res = this.lexNextWellKnown();
+            }
+            else {
+                ; //no matches so just leave res as null
+            }
+
+            if (res) {
+                this.cachedNext = res;
+            }
+        }
+
+        return res;
+    }
+
+    //peek to see what the result of the next token would be
+    peekNextToken() {
+        if (!this.cachedNext) {
+            this.cachedNext = this.popNextToken();
+        }
+
+        return this.cachedNext;
     }
 };
+
+exports.Lexer = Lexer;
