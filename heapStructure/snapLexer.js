@@ -46,7 +46,7 @@ let lexerTokens = {
 function createLexerToken(tokenTag, optData) {
     let res = { tag: tokenTag };
 
-    if (optData) {
+    if (optData !== undefined) {
         res.data = optData;
     }
 
@@ -57,17 +57,28 @@ function createLexerToken(tokenTag, optData) {
 class Lexer {
     constructor(str) {
         this.str = str;
-        this.cpos = 0;
+        this.cpos = str.indexOf('{'); //skip any BOM or other meta-data 
 
         this.cachedNext = null;
+
+        this.simpleTokenRegex = /{|}|\[|\]|,|null|true|false/y;
+        this.jsonKeyRegex = /([a-zA-Z_]\w*):/y;
+        this.floatRegex = /-?[0-9]+\.[0-9]+/y;
+        this.integerRegex = /-?[0-9]+/y;
+        this.stringHeadRegex = /@([0-9]+)\"/y;
+        this.addressRegex = /\*([0-9]+)/y;
+        this.logtagRegex = /!([0-9]+)/y;
+        this.enumtagRegex = /\$([0-9]+)/y;
+        this.wellknownRegex = /~(^[~\w]+)~/y;
+        this.wsRegex = /\s*/y
     }
 
     lexerAssert(cond, msg) {
         if (!cond) {
             console.log(msg);
 
-            let pstr = this.str.substring(max(this.cpos - 10, 0), this.cpos);
-            let estr = this.str.substring(this.cpos, min(this.cpos + 15, this.str.length));
+            let pstr = this.str.substring(Math.max(this.cpos - 10, 0), this.cpos);
+            let estr = this.str.substring(this.cpos, Math.min(this.cpos + 15, this.str.length));
 
             console.log(pstr + estr);
             console.log(' '.repeat(pstr.length) + '^');
@@ -83,32 +94,28 @@ class Lexer {
     }
 
     //lex out a simple token -- { } [ ] , null true false
-    simpleTokenRegex = /{|}|\[|\]|,|null|true|false/y;
     lexNextSimpleToken() {
-        simpleTokenRegex.lastIndex = this.cpos;
-        let m = simpleTokenRegex.exec(this.str);
+        this.simpleTokenRegex.lastIndex = this.cpos;
+        let m = this.simpleTokenRegex.exec(this.str);
         this.lexerAssert(m, 'SimpleToken match fail -- should check before calling this method.');
 
-        switch (m[0]) {
-            case '{': t = createLexerToken(lexerTokens.leftParen); break;
-            case '}': t = createLexerToken(lexerTokens.rightParen); break;
-            case '[': t = createLexerToken(lexerTokens.leftBrack); break;
-            case ']': t = createLexerToken(lexerTokens.rightBrack); break;
-            case ',': t = createLexerToken(lexerTokens.comma); break;
-            case 'null': t = createLexerToken(lexerTokens.nullVal); break;
-            case 'true': t = createLexerToken(lexerTokens.trueVal); break;
-            case 'false': t = createLexerToken(lexerTokens.falseVal); break;
-        }
-
         this.cpos += m[0].length;
-        return t;
+        switch (m[0]) {
+            case '{': return createLexerToken(lexerTokens.leftParen);
+            case '}': return createLexerToken(lexerTokens.rightParen);
+            case '[': return createLexerToken(lexerTokens.leftBrack);
+            case ']': return createLexerToken(lexerTokens.rightBrack);
+            case ',': return createLexerToken(lexerTokens.comma);
+            case 'null': return createLexerToken(lexerTokens.nullVal);
+            case 'true': return createLexerToken(lexerTokens.trueVal);
+            case 'false': return createLexerToken(lexerTokens.falseVal);
+        }
     }
 
     //lex out a json key -- should only be [a-zA-z0-9] strings ending with :
-    jsonKeyRegex = /([a-zA-Z_]\w*):/y;
     lexNextJsonKey() {
-        jsonKeyRegex.lastIndex = this.cpos;
-        let m = jsonKeyRegex.exec(this.str);
+        this.jsonKeyRegex.lastIndex = this.cpos;
+        let m = this.jsonKeyRegex.exec(this.str);
         this.lexerAssert(m && m.length >= 2, 'JsonKey match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
@@ -116,21 +123,19 @@ class Lexer {
     }
 
     //lex out numeric values
-    floatRegex = /-?[0-9]+\.[0-9]+/y;
-    integerRegex = /-?[0-9]+/y;
     lexNextNumber() {
         let lt = lexerTokens.clear;
         let val = 0;
 
-        floatRegex.lastIndex = this.cpos;
-        let m = floatRegex.exec(this.str);
+        this.floatRegex.lastIndex = this.cpos;
+        let m = this.floatRegex.exec(this.str);
         if (m) {
             lt = lexerTokens.float;
             val = Number.parseFloat(m[0]);
         }
         else {
-            integerRegex.lastIndex = this.cpos;
-            m = integerRegex.exec(this.str);
+            this.integerRegex.lastIndex = this.cpos;
+            m = this.integerRegex.exec(this.str);
 
             lt = lexerTokens.integer;
             val = Number.parseInt(m[0]);
@@ -142,21 +147,20 @@ class Lexer {
     }
 
     //lex out a string value
-    stringHeadRegex = /@([0-9]+)\"/y;
     lexNextString() {
-        stringHeadRegex.lastIndex = this.cpos;
-        let m = stringHeadRegex.exec(this.str);
-        this.lexerAssert(m && m.length >= 3, 'String match fail -- should check before calling this method.');
+        this.stringHeadRegex.lastIndex = this.cpos;
+        let m = this.stringHeadRegex.exec(this.str);
+        this.lexerAssert(m && m.length >= 2, 'String match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
-        let strlen = Number.parseInt(m[2]);
+        let strlen = Number.parseInt(m[1]);
 
         let sbegin = this.cpos;
         let send = this.cpos + strlen;
         let strval = this.str.substring(sbegin, send);
 
         this.cpos += strlen + 1; //read off strlen + tailing quote
-        return createLexerToken(lexerTokens.string, val);
+        return createLexerToken(lexerTokens.string, strval);
     }
 
     //lex out address/logtag/enumTag
@@ -174,26 +178,22 @@ class Lexer {
         return createLexerToken(lt, nval);
     }
 
-    addressRegex = /\*[0-9]+/y;
     lexNextAddress() {
-        return lexNextSymValueHelper(addressRegex, lexerTokens.address);
+        return this.lexNextSymValueHelper(this.addressRegex, lexerTokens.address);
     }
 
-    logtagRegex = /![0-9]+/y;
     lexNextLogTag() {
-        return lexNextSymValueHelper(logtagRegex, lexerTokens.logTag);
+        return this.lexNextSymValueHelper(this.logtagRegex, lexerTokens.logTag);
     }
 
-    enumtagRegex = /\$[0-9]+/y;
     lexNextEnumTag() {
-        return lexNextSymValueHelper(enumtagRegex, lexerTokens.enumTag);
+        return this.lexNextSymValueHelper(this.enumtagRegex, lexerTokens.enumTag);
     }
 
     //lex out a well-known token value
-    wellknownRegex = /~(^[~\w]+)~/y;
     lexNextWellKnown() {
-        wellknownRegex.lastIndex = this.cpos;
-        let m = wellknownRegex.exec(this.str);
+        this.wellknownRegex.lastIndex = this.cpos;
+        let m = this.wellknownRegex.exec(this.str);
         this.lexerAssert(m && m.length >= 3, 'Wellknown match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
@@ -209,28 +209,34 @@ class Lexer {
             this.cachedNext = null;
         }
         else {
-            if (this.checkPrefix(jsonKeyRegex)) {
+            this.wsRegex.lastIndex = this.cpos;
+            let wsm = this.wsRegex.exec(this.str);
+            if(wsm) {
+                this.cpos += wsm[0].length;
+            }
+
+            if (this.checkPrefix(this.jsonKeyRegex)) {
                 res = this.lexNextJsonKey();
             }
-            else if (this.checkPrefix(simpleTokenRegex)) {
+            else if (this.checkPrefix(this.simpleTokenRegex)) {
                 res = this.lexNextSimpleToken();
             }
-            else if (this.checkPrefix(floatRegex) || this.checkPrefix(integerRegex)) {
+            else if (this.checkPrefix(this.floatRegex) || this.checkPrefix(this.integerRegex)) {
                 res = this.lexNextNumber();
             }
-            else if (this.checkPrefix(stringHeadRegex)) {
+            else if (this.checkPrefix(this.stringHeadRegex)) {
                 res = this.lexNextString();
             }
-            else if (this.checkPrefix(addressRegex)) {
+            else if (this.checkPrefix(this.addressRegex)) {
                 res = this.lexNextAddress();
             }
-            else if (this.checkPrefix(logtagRegex)) {
+            else if (this.checkPrefix(this.logtagRegex)) {
                 res = this.lexNextLogTag();
             }
-            else if (this.checkPrefix(enumtagRegex)) {
+            else if (this.checkPrefix(this.enumtagRegex)) {
                 res = this.lexNextEnumTag();
             }
-            else if (this.checkPrefix(wellknownRegex)) {
+            else if (this.checkPrefix(this.wellknownRegex)) {
                 res = this.lexNextWellKnown();
             }
             else {

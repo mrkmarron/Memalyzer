@@ -10,7 +10,7 @@ let process = require('process');
 let lexer = require('./snapLexer.js');
 
 function loadData(file) {
-    fs.readFile(file, 'utf16', lexData)
+    fs.readFile(file, 'ucs2', lexData)
 }
 
 function lexData(err, data) {
@@ -24,7 +24,7 @@ function lexData(err, data) {
     let lx = new lexer.Lexer(data);
     while(lx.peekNextToken()) {
         let tk = lx.popNextToken();
-        console.log(tk);
+        //console.log(tk);
     }
 
     console.log('Completed Lexing!')

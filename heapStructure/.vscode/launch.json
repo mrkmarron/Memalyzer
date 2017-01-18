@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceRoot}\\app.js",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "name": "TTDebug",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}\\app.js",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "C:\\Chakra\\TTNode\\Debug\\",
+            "preLaunchTask": null,
+            "runtimeExecutable": "C:\\Chakra\\TTNode\\Debug\\node.exe",
+            "runtimeArgs": [
+                "--nolazy", "--debug", "-TTDebug:ttlog", "-TTBreakFirst"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Process",
+            "port": 5858
+        }
+    ]
+}
