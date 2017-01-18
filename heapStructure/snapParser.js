@@ -14,27 +14,27 @@ let process = require('process');
 ////
 //Tags for lexed tokens
 let lexerTokens = {
-    clear: "clear",
+    clear: 'clear',
 
-    leftParen: "{",
-    rightParen: "{",
-    leftBrack: "[",
-    rightBrack: "]",
-    comma: ",",
+    leftParen: '{',
+    rightParen: '{',
+    leftBrack: '[',
+    rightBrack: ']',
+    comma: ',',
 
-    nullVal: "null",
-    trueVal: "true",
-    falseVal: "false",
+    nullVal: 'null',
+    trueVal: 'true',
+    falseVal: 'false',
 
-    jsonKey: "jsonKey",
+    jsonKey: 'jsonKey',
 
-    integral: "integral",
-    float: "float",
-    string: "string",
-    address: "address",
-    logTag: "logTag",
-    enumTag: "enumTag",
-    wkToken: "wellknownToken"
+    integer: 'integer',
+    float: 'float',
+    string: 'string',
+    address: 'address',
+    logTag: 'logTag',
+    enumTag: 'enumTag',
+    wkToken: 'wellknownToken'
 };
 
 ////
@@ -104,7 +104,7 @@ class Lexer {
     jsonKeyRegex = /[a-zA-Z_]\w*:/y;
     isNextJsonKey() {
         jsonKeyRegex.lastIndex = this.cpos;
-        jsonKeyRegex.test(this.str);
+        return jsonKeyRegex.test(this.str);
     }
     lexNextJsonKey() {
         jsonKeyRegex.lastIndex = this.cpos;
@@ -115,6 +115,40 @@ class Lexer {
         let jkey = m[0].substring(0, m[0].length - 1);
 
         let t = createLexerToken(lexerTokens.jsonKey, jkey);
+        this.output.push(t);
+    }
+
+    //lex out a numeric values
+    floatRegex = /-?[0-9]+'.'[0-9]+/y;
+    integerRegex = /-?[0-9]+/y;
+    isNextNumber() {
+        floatRegex.lastIndex = this.cpos;
+        integerRegex.lastIndex = this.cpos;
+
+        return floatRegex.test(this.str) || integerRegex.test(this.str);
+    }
+    lexNextNumber() {
+        let lt = lexerTokens.clear;
+        let val = 0;
+
+        floatRegex.lastIndex = this.cpos;
+        let m = floatRegex.exec(this.str);
+        if (m) {
+            lt = lexerTokens.float;
+            val = Number.parseFloat(m[0]);
+        }
+        else {
+            integerRegex.lastIndex = this.cpos;
+            m = integerRegex.exec(this.str);
+
+            lt = lexerTokens.integer;
+            val = Number.parseInt(m[0]);
+        }
+        this.lexerAssert(m, 'Number match fail -- should check before calling this method.');
+
+        this.cpos += m[0].length;
+
+        let t = createLexerToken(lt, val);
         this.output.push(t);
     }
 };
