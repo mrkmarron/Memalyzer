@@ -8,6 +8,8 @@
 let console = require('console');
 let process = require('process');
 
+let long = require('long');
+
 ////////////////////////////////
 //Representations for the tokens in the lexer
 
@@ -74,12 +76,14 @@ class Lexer {
         }
     }
 
+    //check for a given prefix regex and do extraction
+    checkPrefix(re) {
+        re.lastIndex = this.cpos;
+        return re.test(this.str);
+    }
+
     //lex out a simple token -- { } [ ] , null true false
     simpleTokenRegex = /{|}|\[|\]|,|null|true|false/y;
-    isNextSimpleToken() {
-        simpleTokenRegex.lastIndex = this.cpos;
-        return simpleTokenRegex.test(this.str);
-    }
     lexNextSimpleToken() {
         simpleTokenRegex.lastIndex = this.cpos;
         let m = simpleTokenRegex.exec(this.str);
@@ -101,32 +105,19 @@ class Lexer {
     }
 
     //lex out a json key -- should only be [a-zA-z0-9] strings ending with :
-    jsonKeyRegex = /[a-zA-Z_]\w*:/y;
-    isNextJsonKey() {
-        jsonKeyRegex.lastIndex = this.cpos;
-        return jsonKeyRegex.test(this.str);
-    }
+    jsonKeyRegex = /([a-zA-Z_]\w*):/y;
     lexNextJsonKey() {
         jsonKeyRegex.lastIndex = this.cpos;
         let m = jsonKeyRegex.exec(this.str);
-        this.lexerAssert(m, 'JsonKey match fail -- should check before calling this method.');
+        this.lexerAssert(m && m.length >= 2, 'JsonKey match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
-        let jkey = m[0].substring(0, m[0].length - 1);
-
-        let t = createLexerToken(lexerTokens.jsonKey, jkey);
-        this.output.push(t);
+        this.output.push(createLexerToken(lexerTokens.jsonKey, m[1]));
     }
 
-    //lex out a numeric values
-    floatRegex = /-?[0-9]+'.'[0-9]+/y;
+    //lex out numeric values
+    floatRegex = /-?[0-9]+\.[0-9]+/y;
     integerRegex = /-?[0-9]+/y;
-    isNextNumber() {
-        floatRegex.lastIndex = this.cpos;
-        integerRegex.lastIndex = this.cpos;
-
-        return floatRegex.test(this.str) || integerRegex.test(this.str);
-    }
     lexNextNumber() {
         let lt = lexerTokens.clear;
         let val = 0;
@@ -147,8 +138,65 @@ class Lexer {
         this.lexerAssert(m, 'Number match fail -- should check before calling this method.');
 
         this.cpos += m[0].length;
+        this.output.push(createLexerToken(lt, val));
+    }
 
-        let t = createLexerToken(lt, val);
-        this.output.push(t);
+    //lex out a string value
+    stringHeadRegex = /@([0-9]+)\"/y;
+    lexNextString() {
+        stringHeadRegex.lastIndex = this.cpos;
+        let m = stringHeadRegex.exec(this.str);
+        this.lexerAssert(m && m.length >= 3, 'String match fail -- should check before calling this method.');
+
+        this.cpos += m[0].length;
+        let strlen = Number.parseInt(m[2]);
+
+        let sbegin = this.cpos;
+        let send = this.cpos + strlen;
+        let strval = this.str.substring(sbegin, send);
+
+        this.cpos += strlen + 1; //read off strlen + tailing quote
+        this.output.push(createLexerToken(lexerTokens.string, val));
+    }
+
+    //lex out address/logtag/enumTag
+    lexNextSymValueHelper(re, lt) {
+        re.lastIndex = this.cpos;
+        let m = re.exec(this.str);
+        this.lexerAssert(m && m.length >= 2, 'Match fail -- should check before calling this method.');
+
+        let nval = Number.parseInt(m[1]);
+        if (!Number.isSafeInteger(nval)) {
+            this.lexerAssert(false, 'We need to add big number support via the long package here.');
+        }
+
+        this.cpos += m[0].length;
+        this.output.push(createLexerToken(lt, nval));
+    }
+
+    addressRegex = /\*[0-9]+/y;
+    lexNextAddress() {
+        lexNextSymValueHelper(addressRegex, lexerTokens.address);
+    }
+
+    logtagRegex = /![0-9]+/y;
+    lexNextLogTag() {
+        lexNextSymValueHelper(logtagRegex, lexerTokens.logTag);
+    }
+
+    enumtagRegex = /\$[0-9]+/y;
+    lexNextEnumTag() {
+        lexNextSymValueHelper(enumtagRegex, lexerTokens.enumTag);
+    }
+
+    //lex out a well-known token value
+    wellknownRegex = /~(^[~\w]+)~/y;
+    lexNextWellKnown() {
+        wellknownRegex.lastIndex = this.cpos;
+        let m = wellknownRegex.exec(this.str);
+        this.lexerAssert(m && m.length >= 3, 'Wellknown match fail -- should check before calling this method.');
+
+        this.cpos += m[0].length;
+        this.output.push(createLexerToken(lexerTokens.wkToken, m[2]));
     }
 };
