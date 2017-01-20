@@ -7,9 +7,24 @@ function computeTotalMemoryUse(mobj) {
         return mobj.site.liveSize;
     }
     else {
-        return mobj.callPaths.reduce(function (acc, val) {
+        mobj.liveSize = mobj.callPaths.reduce(function (acc, val) {
             return acc + computeTotalMemoryUse(val);
         }, 0);
+
+        return mobj.liveSize;
+    }
+}
+
+function computeTotalLiveCount(mobj) {
+    if(mobj.site) {
+        return mobj.site.liveCount;
+    }
+    else {
+        mobj.liveCount = mobj.callPaths.reduce(function (acc, val) {
+            return acc + computeTotalLiveCount(val);
+        }, 0);
+
+        return mobj.liveCount;
     }
 }
 
@@ -40,4 +55,5 @@ function stdFilterMemoryObject(mobj, usercodeDir, okpath) {
 }
 
 exports.computeTotalMemoryUse = computeTotalMemoryUse;
+exports.computeTotalLiveCount = computeTotalLiveCount;
 exports.stdFilterMemoryObject = stdFilterMemoryObject;
