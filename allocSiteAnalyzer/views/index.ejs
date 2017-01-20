@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<style>
+    html {
+        margin-top: 20px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px;
+        padding: 0;
+        color: black; font-size: 10pt; 
+        font-family: "Calibiri", "Trebuchet MS", sans-serif;
+    }
+    #header {
+        background-color: #1E90FF;
+    }
+    h1 { 
+        margin: 0;
+        padding: 0.5em;
+        text-align: center; 
+    } 
+    h2 { 
+        text-align: center; 
+    }
+    #sidebar {
+        float: left;
+        width: 70%;
+        height: 40em;
+        background-color:#E2E2E2;
+    }
+    #main {
+        float:left;
+        width:30%;
+        height: 40em;
+        background-color:#FFFFFF;
+    }
+    #footer {
+        clear:both;
+        background-color: #1E90FF;
+    }
+</style>
+<style>
+    .css3-treeview li, .css3-treeview ul {
+        padding:0;margin:0;list-style:none
+    }
+    .css3-treeview input {
+        position:absolute;opacity:0
+    }
+    .css3-treeview .pathSpan {
+        text-decoration:none
+    }
+    .css3-treeview .pathSpan:hover {
+        text-decoration:underline
+    }
+    .css3-treeview .rootSpan {
+        text-decoration:none
+    }
+    .css3-treeview .rootSpan:hover {
+        text-decoration:underline
+    }
+    .css3-treeview input+label+ul {
+        margin:0 0 0 30px
+    }
+    .css3-treeview input~ul {
+        display:none
+    }
+    .css3-treeview label, .css3-treeview label::before {
+        cursor:pointer
+    }
+    .css3-treeview input:disabled+label {
+        cursor:default;opacity:.6
+    }
+    .css3-treeview input:checked:not(:disabled)~ul {
+        display:block
+    }
+    .css3-treeview label::before {
+        content:"\25b6";margin:0 5px 0 0;font-size:12px;color:#00f;padding-left:3px
+    }
+    .css3-treeview input:checked+label::before {
+        content:"\25bc"
+    } 
+</style>
+</head>
+
+<body>
+<div id=container>
+<div id="header"><h1>Memalyzer Inspector</h1></div>
+<div id="sidebar">
+<h2>Alloc Site Call Tree</h2>
+    <div class="css3-treeview">
+    <ul>
+    <%allocs.forEach(function (value) { %>
+    <%- value %>
+    <% }); %>
+    </ul>
+    </div>
+</div>
+
+<div id="main">
+    <h2>Analysis Info</h2>
+    <div id="analysisContent"></div>
+</div>
+</div>
+
+<div id="footer">
+    <p>Footer</p>
+</div>
+
+</body>
+</html>
