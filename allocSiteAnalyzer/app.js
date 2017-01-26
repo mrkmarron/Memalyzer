@@ -3,6 +3,7 @@
 
 let console = require('console');
 let fs = require('fs');
+let path = require('path');
 let process = require('process');
 let cProcess = require('child_process');
 let util = require('util');
@@ -12,8 +13,7 @@ let ejs = require('ejs');
 let csp = require('./callSiteProcessing');
 
 //
-let nodePath = 'C:\\Chakra\\TTNode\\Debug\\';
-let nodeExePath = nodePath + 'node.exe';
+let nodePath = __dirname + path.sep + 'bins' + path.sep;
 
 let userCodePath = undefined;
 let outputhtml = undefined;
@@ -109,18 +109,13 @@ function processAllocationInfo(allocInfo) {
 function executeReplayAndProcess(traceFile, srcRoot, htmloutput) {
     userCodePath = srcRoot;
     outputhtml = htmloutput;
+    
+    console.log('Replaying ' + traceFile + ' with analytics...')
 
-    console.log('Copying trace file from ' + traceFile + ' for analysis...');
-    //
-    //TODO: copy traceFile to nodepath ttlog 
-    //
-
-    console.log('Replaying tracefile with analytics...')
-
-    let args = ['--nolazy', '-TTReplay:ttlog'];
+    let args = ['--nolazy', '--replay=' + traceFile];
     let options = { cwd: nodePath };
 
-    let cproc = cProcess.spawn(nodeExePath, args, options);
+    let cproc = cProcess.spawn(nodePath + 'node.exe', args, options);
 
     cproc.on('error', function (err) {
         console.log('Replaying tracefile failed: ' + err);
@@ -149,4 +144,6 @@ function executeReplayAndProcess(traceFile, srcRoot, htmloutput) {
 //
 //TODO read parameters from command line
 //
-executeReplayAndProcess(nodePath + 'ttlog', 'c:\\Users\\marron\\Desktop\\memory-leak-example-master', 'c:\\Users\\marron\\Desktop\\alloc.html');
+let tracedir = process.argv[2];
+let appdir = process.argv[3];
+executeReplayAndProcess(tracedir, appdir, __dirname + path.sep + 'alloc.html');
