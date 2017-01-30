@@ -1,8 +1,10 @@
-<li>
+<li <%= useflags ? "class=useflags" : "" %>>
     <input type="checkbox" />
-    <label><span class="pathSpan">
+    <label>
+        <span class="pathSpan">
         <%= info.src.file %> (<%= info.src.line %>,<%= info.src.column %>) -- count: <%= info.liveCount %>, size: <%= info.liveSize / 1000 %> kb
-    </span></label>
+        </span>
+    </label>
     <ul>
         <% subtrees.forEach(function (value) { %> <%- value %> <% }); %>
     </ul>

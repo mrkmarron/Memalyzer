@@ -14,8 +14,8 @@ let csp = require('./callSiteProcessing');
 
 //
 let nodePath = __dirname + path.sep + 'bins' + path.sep;
+//let nodePath = "C:\\Chakra\\TTNode\\Debug\\";
 
-let userCodePath = undefined;
 let outputhtml = undefined;
 //
 
@@ -33,17 +33,17 @@ function loadAllocationInfo(err, data) {
     processAllocationInfo(JSON.parse(dstr));
 }
 
-function renderCallSiteTree(mobj) {
+function renderCallSiteTree(mobj, hasUseFlags) {
     if (mobj.site) {
         return ejs.render(siteejs, { data: mobj });
     }
     else {
         let subtrees = [];
         mobj.callPaths.forEach(function (cmobj) {
-            subtrees.push(renderCallSiteTree(cmobj));
+            subtrees.push(renderCallSiteTree(cmobj, false));
         });
 
-        return ejs.render(cpathejs, { info: mobj, subtrees: subtrees });
+        return ejs.render(cpathejs, { info: mobj, subtrees: subtrees, useflags: hasUseFlags });
     }
 }
 
@@ -60,7 +60,7 @@ function processAllocationInfo(allocInfo) {
     console.log('Filtering interesting allocation sites...');
 
     allocInfo.forEach(function (mobj) {
-        let scc = csp.stdFilterMemoryObject(mobj, userCodePath, false);
+        let scc = csp.stdFilterMemoryObject(mobj, false);
         if (scc) {
             userAllocInfo.push(scc);
         }
@@ -89,7 +89,8 @@ function processAllocationInfo(allocInfo) {
         }
 
         if (process) {
-            allocHtml.push(renderCallSiteTree(mobj));
+            let hasUseFlags = csp.checkForUseFlags(mobj);
+            allocHtml.push(renderCallSiteTree(mobj, hasUseFlags));
         }
     });
 
@@ -106,8 +107,7 @@ function processAllocationInfo(allocInfo) {
     });
 }
 
-function executeReplayAndProcess(traceFile, srcRoot, htmloutput) {
-    userCodePath = srcRoot;
+function executeReplayAndProcess(traceFile,  htmloutput) {
     outputhtml = htmloutput;
     
     console.log('Replaying ' + traceFile + ' with analytics...')
@@ -145,5 +145,4 @@ function executeReplayAndProcess(traceFile, srcRoot, htmloutput) {
 //TODO read parameters from command line
 //
 let tracedir = process.argv[2];
-let appdir = process.argv[3];
-executeReplayAndProcess(tracedir, appdir, __dirname + path.sep + 'alloc.html');
+executeReplayAndProcess(tracedir, __dirname + path.sep + 'alloc.html');

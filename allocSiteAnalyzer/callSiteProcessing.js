@@ -1,6 +1,8 @@
 
 "use strict";
 
+let path = require('path');
+
 //Compute the memory use for a mobj record
 function computeTotalMemoryUse(mobj) {
     if(mobj.site) {
@@ -28,17 +30,33 @@ function computeTotalLiveCount(mobj) {
     }
 }
 
-//Filter a memory record tree to only callstacks that contain user code and have at least 2 live object
-function stdFilterMemoryObject(mobj, usercodeDir, okpath) {
+function checkForUseFlags(mobj) {
     if(mobj.site) {
-        return ((okpath || mobj.src.file.startsWith(usercodeDir)) && mobj.site.liveSize !== 0) ? mobj : null;
+        return !!mobj.site.flags;
+    }
+    else {
+        return mobj.callPaths.reduce(function (acc, val) {
+            return acc | checkForUseFlags(val);
+        }, false);
+    }
+}
+
+//check if a function is in a user source file
+function isSrcUserCode(srcFile) {
+    return path.isAbsolute(srcFile);
+}
+
+//Filter a memory record tree to only callstacks that contain user code and have at least 2 live object
+function stdFilterMemoryObject(mobj, okpath) {
+    if(mobj.site) {
+        return ((okpath || isSrcUserCode(mobj.src.file)) && mobj.site.liveSize !== 0) ? mobj : null;
     }
     else {
         let newpaths = [];
 
-        let tokpath = okpath || mobj.src.file.startsWith(usercodeDir);
+        let tokpath = okpath || isSrcUserCode(mobj.src.file);
         mobj.callPaths.forEach(function (cmobj) {
-            let scc = stdFilterMemoryObject(cmobj, usercodeDir, tokpath);
+            let scc = stdFilterMemoryObject(cmobj, tokpath);
             if(scc) {
                 newpaths.push(scc);
             }
@@ -56,4 +74,5 @@ function stdFilterMemoryObject(mobj, usercodeDir, okpath) {
 
 exports.computeTotalMemoryUse = computeTotalMemoryUse;
 exports.computeTotalLiveCount = computeTotalLiveCount;
+exports.checkForUseFlags = checkForUseFlags;
 exports.stdFilterMemoryObject = stdFilterMemoryObject;
