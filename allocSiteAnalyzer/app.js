@@ -58,15 +58,13 @@ function processAllocationInfo(allocInfo) {
     let userAllocInfo = [];
 
     console.log('Filtering interesting allocation sites...');
-
     allocInfo.forEach(function (mobj) {
         let scc = csp.stdFilterMemoryObject(mobj, false);
         if (scc) {
             userAllocInfo.push(scc);
         }
     });
-
-    console.log('Computing statistics...');
+    console.log("Found " + userAllocInfo.length + " user relevant allocation sites.")
 
     let totalMem = userAllocInfo.reduce(function (acc, val) {
         return acc + csp.computeTotalMemoryUse(val);
@@ -76,8 +74,7 @@ function processAllocationInfo(allocInfo) {
         return acc + csp.computeTotalLiveCount(val);
     }, 0);
 
-    console.log('Generating html...');
-
+    console.log('Filtering allocation sites with large memory/object counts...');
     let allocHtml = [];
     userAllocInfo.forEach(function (mobj) {
         let process = true;
@@ -93,14 +90,16 @@ function processAllocationInfo(allocInfo) {
             allocHtml.push(renderCallSiteTree(mobj, hasUseFlags));
         }
     });
+    console.log("Found " + allocHtml.length + " interesting allocation sites.")
 
+    console.log('Generating html...');
     ejs.renderFile(__dirname + '/views/index.ejs', { allocs: allocHtml }, { cache: false }, function (err, res) {
         if (err) {
             console.log("Error in render: " + err.toString());
             return;
         }
 
-        console.log('Writing html to ' + outputhtml + '...');
+        console.log('Writing html to ' + outputhtml);
         fs.writeFileSync(outputhtml, res);
 
         console.log('Done.');
