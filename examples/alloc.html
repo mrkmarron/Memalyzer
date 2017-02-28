@@ -1,0 +1,1739 @@
+<!doctype html>
+<html>
+<head>
+<style>
+    html {
+        margin-top: 20px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px;
+        padding: 0;
+        color: black; font-size: 10pt; 
+        font-family: "Calibiri", "Trebuchet MS", sans-serif;
+    }
+    #header {
+        background-color: #1E90FF;
+    }
+    h1 { 
+        margin: 0;
+        padding: 0.5em;
+        text-align: center; 
+    } 
+    h2 { 
+        text-align: center; 
+    }
+    #sidebar {
+        float: left;
+        width: 70%;
+        height: 40em;
+        background-color:#E2E2E2;
+	overflow: scroll;
+    }
+    #main {
+        float:left;
+        width:30%;
+        height: 40em;
+        background-color:#FFFFFF;
+    }
+    #footer {
+        clear:both;
+        background-color: #1E90FF;
+    }
+    .useflags {
+        background-color: #00ff00;
+    }
+</style>
+<style>
+    .css3-treeview li, .css3-treeview ul {
+        padding:0;margin:0;list-style:none
+    }
+    .css3-treeview input {
+        position:absolute;opacity:0
+    }
+    .css3-treeview .pathSpan {
+        text-decoration:none
+    }
+    .css3-treeview .pathSpan:hover {
+        text-decoration:underline
+    }
+    .css3-treeview .rootSpan {
+        text-decoration:none
+    }
+    .css3-treeview .rootSpan:hover {
+        text-decoration:underline
+    }
+    .css3-treeview input+label+ul {
+        margin:0 0 0 30px
+    }
+    .css3-treeview input~ul {
+        display:none
+    }
+    .css3-treeview label, .css3-treeview label::before {
+        cursor:pointer
+    }
+    .css3-treeview input:disabled+label {
+        cursor:default;opacity:.6
+    }
+    .css3-treeview input:checked:not(:disabled)~ul {
+        display:block
+    }
+    .css3-treeview label::before {
+        content:"\25b6";margin:0 5px 0 0;font-size:12px;color:#00f;padding-left:3px
+    }
+    .css3-treeview input:checked+label::before {
+        content:"\25bc"
+    } 
+</style>
+</head>
+
+<body>
+<div id=container>
+<div id="header"><h1>Memalyzer Inspector</h1></div>
+<div id="sidebar">
+<h2>Alloc Site Call Tree</h2>
+    <div class="css3-treeview">
+    <ul>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (507,4) -- count: 4, size: 3003.008 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (517,4) -- count: 4, size: 3003.008 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 4, size: 3003.008 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 1, size: 191.424 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 1, size: 191.424 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 1, size: 191.424 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 1, size: 191.424 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 1, size: 191.424 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>  <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 1, size: 177.728 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 1, size: 177.728 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>  <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 1, size: 2591.872 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 1, size: 2591.872 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>  <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        net.js (8,0) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 1, size: 41.984 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 1, size: 41.984 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (434,4) -- count: 143, size: 131.68 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (522,6) -- count: 143, size: 131.68 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 143, size: 131.68 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 13, size: 10.696 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 13, size: 10.696 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 13, size: 10.696 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 13, size: 10.696 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 13, size: 10.696 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>  <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 6, size: 1.288 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 6, size: 1.288 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>  <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 117, size: 114.952 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 117, size: 114.952 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>  <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        net.js (8,0) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 7, size: 4.744 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 7, size: 4.744 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (43,2) -- count: 101, size: 118.72 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 101, size: 118.72 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 101, size: 118.72 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 101, size: 118.72 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li class=useflags>
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (33,4) -- count: 101, size: 5.656 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (44,2) -- count: 101, size: 5.656 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 101, size: 5.656 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 101, size: 5.656 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 101, size: 5.656 kb 
+        -- useflags: [&#34;LowDataContentObject&#34;]
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li class=useflags>
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (46,2) -- count: 101, size: 6.464 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 101, size: 6.464 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 101, size: 6.464 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 101, size: 6.464 kb 
+        -- useflags: [&#34;SparseDataArray&#34;]
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li class=useflags>
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (49,2) -- count: 101, size: 4.04 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 101, size: 4.04 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 101, size: 4.04 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 101, size: 4.04 kb 
+        -- useflags: [&#34;LowDataContentObject&#34;]
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (136,2) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 94, size: 16.64 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 94, size: 16.64 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        net.js (10,0) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 71, size: 16.744 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 71, size: 16.744 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        net.js (15,0) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 148, size: 22.208 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 148, size: 22.208 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        net.js (16,0) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        tty.js (4,0) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (142,6) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        internal/process/stdio.js (10,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        console.js (105,0) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (527,6) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (468,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        bootstrap_node.js (252,10) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        C:\Chakra\Memalyzer\examples\memory-leak-example-master\index.js (13,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (365,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li >
+    <input type="checkbox" />
+    <label>
+        <span class="pathSpan">
+        timers.js (237,4) -- count: 113, size: 16.968 kb
+        </span>
+    </label>
+    <ul>
+         <li>
+    <span class="rootSpan">
+        timers.js (207,4) -- count: 113, size: 16.968 kb 
+        
+    </span>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li> 
+    </ul>
+</li>
+    
+    </ul>
+    </div>
+</div>
+
+<div id="main">
+    <h2>Analysis Info</h2>
+    <div id="analysisContent"></div>
+</div>
+</div>
+
+<div id="footer">
+    <p>Footer</p>
+</div>
+
+</body>
+</html>
