@@ -22,12 +22,7 @@ let outputhtml = undefined;
 let siteejs = fs.readFileSync(__dirname + '/views/site.ejs', { encoding: 'utf8' });
 let cpathejs = fs.readFileSync(__dirname + '/views/cpath.ejs', { encoding: 'utf8' });
 
-function loadAllocationInfo(err, data) {
-    if (err) {
-        console.log("Failed to load file: " + err);
-        process.exit(1);
-    }
-
+function loadAllocationInfo(data) {
     let spos = data.indexOf('[');
     let epos = data.lastIndexOf(']') + 1;
     let dstr = data.substring(spos, epos).replace(/\\/g, '\\\\');
@@ -118,16 +113,13 @@ function executeReplayAndProcess(traceFile,  htmloutput) {
     let bindir = undefined;
     let binpath = undefined;
     if(process.platform === 'win32') {
-        bindir = nodePath + 'win32_bins' + path.sep;
-        binpath = bindir + 'node.exe';
+        binpath = nodePath + 'win32_bins' + path.sep + 'node.exe';
     }
     else if(process.platform === 'darwin') {
-        bindir = nodePath + 'macOS_bins' + path.sep;
-        binpath = bindir + 'node';
+        binpath = nodePath + 'macOS_bins' + path.sep + 'node';
     }
     else if(process.platform === 'linux') {
-        bindir = nodePath + 'linux_bins' + path.sep;
-        binpath = bindir + 'node';
+        binpath = nodePath + 'linux_bins' + path.sep + 'node';
     }
     else {
         console.log('Unknown platform in executeReplay');
@@ -135,9 +127,8 @@ function executeReplayAndProcess(traceFile,  htmloutput) {
     }
 
     let args = ['--nolazy', '--replay=' + traceFile];
-    let options = { cwd: bindir };
-
-    let cproc = cProcess.spawn(binpath, args, options);
+    
+    let cproc = cProcess.spawn(binpath, args);
 
     cproc.on('error', function (err) {
         console.log('Replaying tracefile failed: ' + err);
@@ -150,12 +141,7 @@ function executeReplayAndProcess(traceFile,  htmloutput) {
     });
 
     cproc.on('close', function (code) {
-        if (code !== 0) {
-            console.log("Failed replay with:" + code);
-            process.exit(1);
-        }
-
-        loadAllocationInfo(code, stdoutResult);
+        loadAllocationInfo(stdoutResult);
     });
 
 
