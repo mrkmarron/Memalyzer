@@ -28,8 +28,12 @@ function loadAllocationInfo(err, data) {
         process.exit(1);
     }
 
-    let dspos = data.indexOf('[');
-    let dstr = data.substring(dspos).replace(/\\/g, '\\\\');
+    let spos = data.indexOf('[');
+    let epos = data.lastIndexOf(']') + 1;
+    let dstr = data.substring(spos, epos).replace(/\\/g, '\\\\');
+
+    console.log(dstr);
+
     processAllocationInfo(JSON.parse(dstr));
 }
 
@@ -111,10 +115,29 @@ function executeReplayAndProcess(traceFile,  htmloutput) {
     
     console.log('Replaying ' + traceFile + ' with analytics...')
 
-    let args = ['--nolazy', '--replay=' + traceFile];
-    let options = { cwd: nodePath };
+    let bindir = undefined;
+    let binpath = undefined;
+    if(process.platform === 'win32') {
+        bindir = nodePath + 'win32_bins' + path.sep;
+        binpath = bindir + 'node.exe';
+    }
+    else if(process.platform === 'darwin') {
+        bindir = nodePath + 'macOS_bins' + path.sep;
+        binpath = bindir + 'node';
+    }
+    else if(process.platform === 'linux') {
+        bindir = nodePath + 'linux_bins' + path.sep;
+        binpath = bindir + 'node';
+    }
+    else {
+        console.log('Unknown platform in executeReplay');
+        process.exit(1);
+    }
 
-    let cproc = cProcess.spawn(nodePath + 'node.exe', args, options);
+    let args = ['--nolazy', '--replay=' + traceFile];
+    let options = { cwd: bindir };
+
+    let cproc = cProcess.spawn(binpath, args, options);
 
     cproc.on('error', function (err) {
         console.log('Replaying tracefile failed: ' + err);
