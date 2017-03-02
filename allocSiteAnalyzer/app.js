@@ -27,7 +27,7 @@ function loadAllocationInfo(data) {
     let epos = data.lastIndexOf(']') + 1;
     let dstr = data.substring(spos, epos).replace(/\\/g, '\\\\');
 
-    console.log(dstr);
+    // console.log(dstr);
 
     processAllocationInfo(JSON.parse(dstr));
 }
@@ -126,6 +126,12 @@ function executeReplayAndProcess(traceFile,  htmloutput) {
         process.exit(1);
     }
 
+    if (!fs.existsSync(binpath))
+    {
+	console.log('Node binary not found...exiting');
+	console.log('Hint: uncompress the binary in your bin/{platform}');
+    }
+    
     let args = ['--nolazy', '--replay=' + traceFile];
     
     let cproc = cProcess.spawn(binpath, args);
